@@ -18,3 +18,9 @@ Object Orientated?
 - load bestlist when open the programm
 
 - game klasse um mehrere operationen der anderen klassen zusammenzufassen?
+
+ABLAUF:
+ -> Willkommensnachricht
+ -> Eingabe des Namens
+ -> Eingabe von Schere, Stein oder Papier
+ -> ausgabe von SCHERE! .... STEIN! ... PAPIER! (mit Wartezeit dazwischen)
