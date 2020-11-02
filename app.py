@@ -1,8 +1,14 @@
 from User import User
+from Npc import Npc
 
-u = User("Dominik")
-print(u.get_name())
-u.set_score(120)
-print(u.get_score())
+print("Welcome to the Game Rock, Paper or Scissor!\n")
 
+user = User(input("Name: "))
+computer = Npc()
 
+print(f"Hello {user.get_name()}. Lets start the Game!")
+
+#while(user.get_score() < 3 and computer.get_score() < 3):
+
+user.set_choice("mist")
+print(user.get_choice())
