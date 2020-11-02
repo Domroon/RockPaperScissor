@@ -16,3 +16,5 @@ Object Orientated?
 - import/export User and Bestlist
 (- export Best automatically to a website) 
 - load bestlist when open the programm
+
+- game klasse um mehrere operationen der anderen klassen zusammenzufassen?
