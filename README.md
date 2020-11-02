@@ -20,7 +20,9 @@ Object Orientated?
 - game klasse um mehrere operationen der anderen klassen zusammenzufassen?
 
 ABLAUF:
- -> Willkommensnachricht
- -> Eingabe des Namens
- -> Eingabe von Schere, Stein oder Papier
- -> ausgabe von SCHERE! .... STEIN! ... PAPIER! (mit Wartezeit dazwischen)
+ - Willkommensnachricht
+ - Eingabe des Namens
+ - Eingabe von Schere, Stein oder Papier
+ - ausgabe von SCHERE! .... STEIN! ... PAPIER! (mit Wartezeit dazwischen)
+ 
+ 
