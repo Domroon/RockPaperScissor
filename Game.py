@@ -6,7 +6,6 @@ class Game:
     def __init__(self):
         self.user = User("Nobody")
         self.npc = Npc()
-        self.is_undecided = False
 
     def startcreen(self):
         print("Welcome to the Game \"Rock , Paper or Scissor!\"")
@@ -19,13 +18,18 @@ class Game:
         self.npc.set_choice()
         self.round_animation()
         print(f"{self.user.get_choice()} against {self.npc.get_choice()}")
-        self.is_winner()
-        if self.is_undecided:
+        self.is_winner(self.user.get_choice(), self.npc.get_choice())
+        if self.user.get_choice() == self.npc.get_choice():
             print("Undecided!")
-        elif self.is_winner():
+        elif self.is_winner(self.user.get_choice(), self.npc.get_choice()):
+            self.user.set_one_point()
             print("You win!")
         else:
+            self.npc.set_one_point()
             print("You loose!")
+
+        print(f"User score: {self.user.get_score()}")
+        print(f"Npc score: {self.npc.get_score()}")
 
     def round_animation(self):
         time.sleep(1)
@@ -37,7 +41,6 @@ class Game:
         time.sleep(1)
 
     def is_winner(self, choice_user, choice_npc):
-        self.is_undecided = False                 # it have to be False first
         if choice_user == "rock":                 # rock against paper or scissor
             if choice_npc == "paper":
                 return False
@@ -53,5 +56,3 @@ class Game:
                 return False
             elif choice_npc == "paper":
                 return True
-        else:
-            self.is_undecided = True              # if nothing match its: rock,rock or stone,stone or scissor,scissor

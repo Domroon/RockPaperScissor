@@ -13,8 +13,8 @@ class Npc:
     def get_score(self):
         return self.score
 
-    def set_score(self, score):
-        self.score = score
+    def set_one_point(self):
+        self.score = self.score + 1
 
     def set_choice(self):
         self.choice = self.move[random.randint(0, 2)]
