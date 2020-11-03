@@ -19,18 +19,9 @@ class User:
         self.score = self.score + 1
 
     def set_choice(self, move):
-        try:
-            if move == "rock":
-                self.choice = move
-            elif move == "paper":
-                self.choice = move
-            elif move == "scissor":
-                self.choice = move
-            else:
-                raise ValueError
-        except ValueError:
-            print("Invalid Input")
-            print("You can choose between \"rock\", \"paper\" or \"scissor\"")
+        if move not in ["rock", "paper", "scissor"]:
+            raise ValueError('You can choose between "rock", "paper" or "scissor"')
+        self.choice = move
 
     def get_choice(self):
         return self.choice
