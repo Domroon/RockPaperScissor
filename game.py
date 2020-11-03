@@ -18,24 +18,22 @@ class Game:
             try:
                 self.user.set_choice(input("Please take your choice: "))
                 break
-            except ValueError:
-                print('You can choose between "rock", "paper" or "scissor"')
-
+            except ValueError as error:
+                print(error)
         self.npc.set_choice()
         self.round_animation()
         print(f"{self.user.get_choice()} against {self.npc.get_choice()}")
-        self.is_winner(self.user.get_choice(), self.npc.get_choice())
-        if self.user.get_choice() == self.npc.get_choice():
+        winner = self.get_winner()
+        if winner is None:
             print("Undecided!")
-        elif self.is_winner(self.user.get_choice(), self.npc.get_choice()):
-            self.user.set_one_point()
-            print("You win!")
         else:
-            self.npc.set_one_point()
-            print("You loose!")
-
-        print(f"User score: {self.user.get_score()}")
-        print(f"Npc score: {self.npc.get_score()}")
+            winner.set_one_point()
+            if winner is self.user:
+                print("You win!")
+            else:
+                print("You loose!")
+        print(f"User score: {self.user.score}")
+        print(f"Npc score: {self.npc.score}")
 
     def round_animation(self):
         time.sleep(1)
@@ -46,19 +44,29 @@ class Game:
         print("Scissor!")
         time.sleep(1)
 
-    def is_winner(self, choice_user, choice_npc):
-        if choice_user == "rock":                 # rock against paper or scissor
+    def get_winner(self):
+        choice_user = self.user.choice
+        choice_npc = self.npc.choice
+        if choice_user == "rock":
             if choice_npc == "paper":
-                return False
+                return self.npc
             elif choice_npc == "scissor":
-                return True
-        elif choice_user == "paper":              # paper against scissor or stone
+                return self.user
+            else:
+                return None
+        elif choice_user == "paper":
             if choice_npc == "scissor":
-                return False
+                return self.npc
             elif choice_npc == "stone":
-                return True
-        elif choice_user == "scissor":            # scissor against rock or paper
+                return self.user
+            else:
+                return None
+        elif choice_user == "scissor":
             if choice_npc == "rock":
-                return False
+                return self.npc
             elif choice_npc == "paper":
-                return True
+                return self.user
+            else:
+                return None
+        else:
+            raise ValueError()

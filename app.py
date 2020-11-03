@@ -9,7 +9,8 @@ from game import Game
 
 def main():
     game = Game()
-    game.round()
-
+    max_rounds = 3
+    for round in range(max_rounds):
+        game.round()
 if __name__ == '__main__':
     main()
