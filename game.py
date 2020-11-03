@@ -14,7 +14,13 @@ class Game:
 
     def round(self):
         # user and npc take their choices
-        self.user.set_choice(input("Please take your choice: "))
+        while True:
+            try:
+                self.user.set_choice(input("Please take your choice: "))
+                break
+            except ValueError:
+                print('You can choose between "rock", "paper" or "scissor"')
+
         self.npc.set_choice()
         self.round_animation()
         print(f"{self.user.get_choice()} against {self.npc.get_choice()}")
