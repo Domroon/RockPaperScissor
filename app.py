@@ -1,8 +1,4 @@
-from user import User
-from npc import Npc
 from game import Game
-# import random
-import time
 
 # Willkommensnachricht
 # Eingabe des Namens
@@ -11,7 +7,9 @@ import time
 # Ausgabe von Punktestand NPC - Spieler
 # Wiederholen wenn einer noch keine 3 Punkte hat
 
-game = Game()
+def main():
+    game = Game()
+    game.round()
 
-game.round()
-
+if __name__ == '__main__':
+    main()
