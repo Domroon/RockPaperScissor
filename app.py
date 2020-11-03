@@ -1,6 +1,6 @@
-from User import User
-from Npc import Npc
-from Game import Game
+from user import User
+from npc import Npc
+from game import Game
 # import random
 import time
 

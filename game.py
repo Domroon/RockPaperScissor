@@ -1,5 +1,5 @@
-from User import User
-from Npc import Npc
+from user import User
+from npc import Npc
 import time
 
 class Game:
