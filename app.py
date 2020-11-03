@@ -13,6 +13,5 @@ import time
 
 game = Game()
 
-game.startcreen()
-
 game.round()
+

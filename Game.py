@@ -15,15 +15,14 @@ class Game:
 
     def round(self):
         # user and npc take their choices
-        self.is_undecided = False
         self.user.set_choice(input("Please take your choice: "))
         self.npc.set_choice()
         self.round_animation()
         print(f"{self.user.get_choice()} against {self.npc.get_choice()}")
-        self.result_check()
+        self.is_winner()
         if self.is_undecided:
             print("Undecided!")
-        elif self.result_check:
+        elif self.is_winner():
             print("You win!")
         else:
             print("You loose!")
@@ -37,21 +36,22 @@ class Game:
         print("Scissor!")
         time.sleep(1)
 
-    def result_check(self):
-        if self.user.get_choice() == self.npc.get_choice():  # undecided
-            self.is_undecided = True
-        elif self.user.get_choice() == "rock":               # rock against paper or scissor
-            if self.npc.get_choice() == "paper":
+    def is_winner(self, choice_user, choice_npc):
+        self.is_undecided = False                 # it have to be False first
+        if choice_user == "rock":                 # rock against paper or scissor
+            if choice_npc == "paper":
                 return False
-            elif self.npc.get_choice() == "scissor":
+            elif choice_npc == "scissor":
                 return True
-        elif self.user.get_choice() == "paper":              # paper against scissor or stone
-            if self.npc.get_choice() == "scissor":
+        elif choice_user == "paper":              # paper against scissor or stone
+            if choice_npc == "scissor":
                 return False
-            elif self.npc.get_choice() == "stone":
+            elif choice_npc == "stone":
                 return True
-        elif self.user.get_choice() == "scissor":            # scissor against rock or spaper
-            if self.npc.get_choice() == "rock":
+        elif choice_user == "scissor":            # scissor against rock or paper
+            if choice_npc == "rock":
                 return False
-            elif self.npc.get_choice() == "paper":
+            elif choice_npc == "paper":
                 return True
+        else:
+            self.is_undecided = True              # if nothing match its: rock,rock or stone,stone or scissor,scissor
