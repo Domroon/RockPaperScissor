@@ -1,11 +1,9 @@
-from user import User
-from npc import Npc
 import time
 
 class Game:
-    def __init__(self):
-        self.user = User("Nobody")
-        self.npc = Npc()
+    def __init__(self, user, npc):
+        self.user = user
+        self.npc = npc
 
     def startcreen(self):
         print("Welcome to the Game \"Rock , Paper or Scissor!\"")
@@ -36,13 +34,14 @@ class Game:
         print(f"Npc score: {self.npc.score}")
 
     def round_animation(self):
-        time.sleep(1)
+        speed = 0.5
+        time.sleep(speed)
         print("Rock!")
-        time.sleep(1)
+        time.sleep(speed)
         print("Paper!")
-        time.sleep(1)
+        time.sleep(speed)
         print("Scissor!")
-        time.sleep(1)
+        time.sleep(speed)
 
     def get_winner(self):
         choice_user = self.user.choice
@@ -57,7 +56,7 @@ class Game:
         elif choice_user == "paper":
             if choice_npc == "scissor":
                 return self.npc
-            elif choice_npc == "stone":
+            elif choice_npc == "rock":
                 return self.user
             else:
                 return None
