@@ -1,0 +1,38 @@
+VISION AND MISSION:
+
+    CURRENT:
+        a - User Accounts
+    FUTURE:
+        b - bestlist
+        c - GUI
+        d - Integrate on a Website (Django?)
+PROGRAM GOALS:
+        a
+            - Ask the User to Login or Register
+              IF Login:
+                      Ask Loginname
+                      Ask password
+                      Should show a personal Welcome Message
+              IF Register: Ask Loginname
+                         Ask Password
+                         Ask Password again
+            - Can choose between
+                - PLAY
+                - STATISTICS
+                - LOGOUT
+            - Can play as many rounds they like
+            - After every "full best of three" store the LOOSES and
+              WINS in the Account
+PROGRAM OBJECTIVES:
+        a
+            - Add while-loop for Login
+            - Add while-loop for PLAY, STATISTICS and LOGOUT
+            - Add attributes to User-class: password, looses, wins
+            - Add password-method for secure passwords
+            - Add add_one_loose to store looses
+            - Add add_one_win to store wins
+            - Add method to User-class: statistics
+            - Add a text-file for store Users
+            - Add a method in Game-class to save users
+            - Add a search_user-method to find users in the User-text-file
+            - Add a load-method in Game-class to load the User-text-file
