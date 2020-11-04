@@ -7,20 +7,20 @@ class Game:
 
     def startcreen(self):
         print("Welcome to the Game \"Rock , Paper or Scissor!\"")
-        self.user.set_name(input("Name: "))
-        print(f"Hello {self.user.get_name()}! Lets start the Game!")
+        self.user.name = input("Name: ")
+        print(f"Hello {self.user.name}! Lets start the Game!")
 
     def round(self):
         # user and npc take their choices
         while True:
             try:
-                self.user.set_choice(input("Please take your choice: "))
+                self.user.choice = input("Please take your choice: ")
                 break
             except ValueError as error:
                 print(error)
         self.npc.make_choice()
         self.round_animation()
-        print(f"{self.user.get_choice()} against {self.npc.choice}")
+        print(f"{self.user.choice} against {self.npc.choice}")
         winner = self.get_winner()
         if winner is None:
             print("Undecided!")
