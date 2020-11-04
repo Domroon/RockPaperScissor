@@ -18,14 +18,14 @@ class Game:
                 break
             except ValueError as error:
                 print(error)
-        self.npc.set_choice()
+        self.npc.make_choice()
         self.round_animation()
-        print(f"{self.user.get_choice()} against {self.npc.get_choice()}")
+        print(f"{self.user.get_choice()} against {self.npc.choice}")
         winner = self.get_winner()
         if winner is None:
             print("Undecided!")
         else:
-            winner.set_one_point()
+            winner.add_point()
             if winner is self.user:
                 print("You win!")
             else:

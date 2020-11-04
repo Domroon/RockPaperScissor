@@ -15,7 +15,7 @@ class User:
     def get_score(self):
         return self.score
 
-    def set_one_point(self):
+    def add_point(self):
         self.score = self.score + 1
 
     def set_choice(self, move):

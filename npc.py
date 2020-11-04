@@ -2,22 +2,24 @@ import random
 
 class Npc:
     def __init__(self):
-        self.score = 0
+        self._score = 0
         self.move = [
             "rock",
             "paper",
             "scissor"
         ]
-        self.choice = "nothing"
+        self._choice = "nothing"
 
-    def get_score(self):
-        return self.score
+    @property
+    def score(self):
+        return self._score
 
-    def set_one_point(self):
-        self.score = self.score + 1
+    def add_point(self):
+        self._score = self.score + 1
 
-    def set_choice(self):
-        self.choice = self.move[random.randint(0, 2)]
+    def make_choice(self):
+        self._choice = self.move[random.randint(0, 2)]
 
-    def get_choice(self):
-        return self.choice
+    @property
+    def choice(self):
+        return self._choice
