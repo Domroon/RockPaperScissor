@@ -1,16 +1,14 @@
 import random
 import time
 
+POSSIBLE_MOVES = ["rock", "paper", "scissor"]
+MAX_SCORE = 3
+
 
 class Game:
     def __init__(self, user, computer):
         self.user = user
         self.computer = computer
-
-    def startcreen(self):
-        print("Welcome to the Game \"Rock , Paper or Scissor!\"")
-        self.user.name = input("Name: ")
-        print(f"Hello {self.user.name}! Lets start the Game!")
 
     def round(self):
         # user and computer take their choices
@@ -82,7 +80,7 @@ class User:
         self.have_win = False
 
     def add_point(self):
-        self.score = self.score + 1
+        self.score += 1
 
     @property
     def choice(self):
@@ -90,12 +88,9 @@ class User:
 
     @choice.setter
     def choice(self, move):
-        if move not in ["rock", "paper", "scissor"]:
-            raise ValueError('You can choose between "rock", "paper" or "scissor"')
+        if move not in POSSIBLE_MOVES:
+            raise ValueError(f'You can choose between {" / ".join(POSSIBLE_MOVES)}')
         self._choice = move
-
-
-POSSIBLE_MOVES = ["rock", "paper", "scissor"]
 
 
 class Computer:
@@ -107,24 +102,18 @@ class Computer:
         self.score = self.score + 1
 
     def make_choice(self):
-        self.choice = self.move[random.randint(0, 2)]
-
-    def make_choice(self):
         self.choice = random.choice(POSSIBLE_MOVES)
 
 
 def main():
-    user = User("Nobody")
+    print('Welcome to the Game "Rock, Paper or Scissor!"')
+    name = input("Name: ")
+    print(f"Hello {name}! Lets start the Game!")
+    user = User(name)
     computer = Computer()
     game = Game(user, computer)
-    max_score = 3
-
-    game.startcreen()
-
-    while True:
+    while user.score < MAX_SCORE and computer.score < MAX_SCORE:
         game.round()
-        if user.score == 3 or computer.score == 3:
-            break
     print("Thank you for gaming!")
 
 
