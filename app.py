@@ -95,29 +95,22 @@ class User:
         self._choice = move
 
 
+POSSIBLE_MOVES = ["rock", "paper", "scissor"]
+
+
 class Computer:
     def __init__(self):
-        self._score = 0
-        self.move = [
-            "rock",
-            "paper",
-            "scissor"
-        ]
-        self._choice = "nothing"
-
-    @property
-    def score(self):
-        return self._score
+        self.score = 0
+        self.choice = "nothing"
 
     def add_point(self):
-        self._score = self.score + 1
+        self.score = self.score + 1
 
     def make_choice(self):
-        self._choice = self.move[random.randint(0, 2)]
+        self.choice = self.move[random.randint(0, 2)]
 
-    @property
-    def choice(self):
-        return self._choice
+    def make_choice(self):
+        self.choice = random.choice(POSSIBLE_MOVES)
 
 
 def main():
