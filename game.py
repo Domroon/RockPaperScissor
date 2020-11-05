@@ -1,9 +1,9 @@
 import time
 
 class Game:
-    def __init__(self, user, npc):
+    def __init__(self, user, computer):
         self.user = user
-        self.npc = npc
+        self.computer = computer
 
     def startcreen(self):
         print("Welcome to the Game \"Rock , Paper or Scissor!\"")
@@ -11,16 +11,16 @@ class Game:
         print(f"Hello {self.user.name}! Lets start the Game!")
 
     def round(self):
-        # user and npc take their choices
+        # user and computer take their choices
         while True:
             try:
                 self.user.choice = input("Please take your choice: ")
                 break
             except ValueError as error:
                 print(error)
-        self.npc.make_choice()
+        self.computer.make_choice()
         self.round_animation()
-        print(f"{self.user.choice} against {self.npc.choice}")
+        print(f"{self.user.choice} against {self.computer.choice}")
         winner = self.get_winner()
         if winner is None:
             print("Undecided!")
@@ -31,7 +31,7 @@ class Game:
             else:
                 print("You loose!")
         print(f"User score: {self.user.score}")
-        print(f"Npc score: {self.npc.score}")
+        print(f"computer score: {self.computer.score}")
 
     def round_animation(self):
         speed = 0.5
@@ -45,25 +45,25 @@ class Game:
 
     def get_winner(self):
         choice_user = self.user.choice
-        choice_npc = self.npc.choice
+        choice_computer = self.computer.choice
         if choice_user == "rock":
-            if choice_npc == "paper":
-                return self.npc
-            elif choice_npc == "scissor":
+            if choice_computer == "paper":
+                return self.computer
+            elif choice_computer == "scissor":
                 return self.user
             else:
                 return None
         elif choice_user == "paper":
-            if choice_npc == "scissor":
-                return self.npc
-            elif choice_npc == "rock":
+            if choice_computer == "scissor":
+                return self.computer
+            elif choice_computer == "rock":
                 return self.user
             else:
                 return None
         elif choice_user == "scissor":
-            if choice_npc == "rock":
-                return self.npc
-            elif choice_npc == "paper":
+            if choice_computer == "rock":
+                return self.computer
+            elif choice_computer == "paper":
                 return self.user
             else:
                 return None

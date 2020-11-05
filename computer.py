@@ -1,6 +1,6 @@
 import random
 
-class Npc:
+class Computer:
     def __init__(self):
         self._score = 0
         self.move = [
