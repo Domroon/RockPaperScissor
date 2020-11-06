@@ -3,6 +3,11 @@ import time
 
 POSSIBLE_MOVES = ["rock", "paper", "scissor"]
 MAX_SCORE = 3
+SPECIAL_CHARACTER = ["!§$%&/()=?{[]}-_<>|´`"]
+NUMBER_CHARACTER = ["0123456789"]
+UPPER_CASE = ["ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖ"]
+LOWER_CASE = ["abcdefghijklmnopqrstuvwxyzäöß"]
+PASSWORD_LENGTH = 8
 
 
 class Game:
@@ -76,8 +81,8 @@ class User:
     def __init__(self, name):
         self.score = 0
         self.name = name
+        self._password = None
         self._choice = "nothing"
-        self.have_win = False
 
     def add_point(self):
         self.score += 1
@@ -92,6 +97,21 @@ class User:
             raise ValueError(f'You can choose between {" / ".join(POSSIBLE_MOVES)}')
         self._choice = move
 
+    @property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def password(self, password):
+        # password needs:
+        # letter in upper and lower case
+        # at least one special sign
+        # at least one number
+        if len(password) >= 8:
+            self._password = password
+        else:
+            raise ValueError("Password needs at least 8 character")
+
 
 class Computer:
     def __init__(self):
@@ -105,7 +125,22 @@ class Computer:
         self.choice = random.choice(POSSIBLE_MOVES)
 
 
+def test():
+    user = User("Max")
+    try:
+        user.password = "asdf"
+    except ValueError as err:
+        print(err)
+
+    if user.password is None:
+        print("User password is incorrect")
+    else:
+        print("You can use this password")
+
+
 def main():
+    test()
+    '''
     print('Welcome to the Game "Rock, Paper or Scissor!"')
     name = input("Name: ")
     print(f"Hello {name}! Lets start the Game!")
@@ -115,7 +150,7 @@ def main():
     while user.score < MAX_SCORE and computer.score < MAX_SCORE:
         game.round()
     print("Thank you for gaming!")
-
+    '''
 
 if __name__ == '__main__':
     main()
