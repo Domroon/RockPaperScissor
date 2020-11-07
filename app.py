@@ -78,10 +78,10 @@ class Game:
 
 class User:
 
-    def __init__(self, name):
+    def __init__(self, name, password):
         self.score = 0
         self.name = name
-        self._password = None
+        self._password = password
         self._choice = "nothing"
 
     def add_point(self):
@@ -126,31 +126,30 @@ class Computer:
 
 
 def test():
-    user = User("Max")
     try:
-        user.password = "asdf"
+        user = User("Max", "asdf")
     except ValueError as err:
         print(err)
 
-    if user.password is None:
-        print("User password is incorrect")
-    else:
-        print("You can use this password")
+    # if user.password is None:
+    #     print("User password is incorrect")
+    # else:
+    #     print("You can use this password")
 
 
 def main():
     test()
-    '''
-    print('Welcome to the Game "Rock, Paper or Scissor!"')
-    name = input("Name: ")
-    print(f"Hello {name}! Lets start the Game!")
-    user = User(name)
-    computer = Computer()
-    game = Game(user, computer)
-    while user.score < MAX_SCORE and computer.score < MAX_SCORE:
-        game.round()
-    print("Thank you for gaming!")
-    '''
+
+    # print('Welcome to the Game "Rock, Paper or Scissor!"')
+    # name = input("Name: ")
+    # print(f"Hello {name}! Lets start the Game!")
+    # user = User(name)
+    # computer = Computer()
+    # game = Game(user, computer)
+    # while user.score < MAX_SCORE and computer.score < MAX_SCORE:
+    #     game.round()
+    # print("Thank you for gaming!")
+
 
 if __name__ == '__main__':
     main()
