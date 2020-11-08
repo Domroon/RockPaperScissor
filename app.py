@@ -11,9 +11,9 @@ PASSWORD_LENGTH = 8
 
 
 class Game:
-    def __init__(self, user, computer):
-        self.user = user
+    def __init__(self, computer, user):
         self.computer = computer
+        self.user = user
 
     def round(self):
         # user and computer take their choices
@@ -81,7 +81,7 @@ class User:
     def __init__(self, name, password):
         self.score = 0
         self.name = name
-        self._password = password
+        self.password = password
         self._choice = "nothing"
 
     def add_point(self):
@@ -125,30 +125,27 @@ class Computer:
         self.choice = random.choice(POSSIBLE_MOVES)
 
 
-def test():
-    try:
-        user = User("Max", "asdf")
-    except ValueError as err:
-        print(err)
-
-    # if user.password is None:
-    #     print("User password is incorrect")
-    # else:
-    #     print("You can use this password")
+def register():
+    while True:
+        try:
+            user = User(input("name: "), input("password: "))
+            break
+        except ValueError as err:
+            print(err)
+    # if the object not exists in the user_test_file
+    #   then save object in text-file
+    return user
 
 
 def main():
-    test()
+    computer = Computer()
+    game = Game(computer, register())
+    print('Welcome to the Game "Rock, Paper or Scissor!"')
+    print(f'Hello {game.user.name}. Lets start the game.')
 
-    # print('Welcome to the Game "Rock, Paper or Scissor!"')
-    # name = input("Name: ")
-    # print(f"Hello {name}! Lets start the Game!")
-    # user = User(name)
-    # computer = Computer()
-    # game = Game(user, computer)
-    # while user.score < MAX_SCORE and computer.score < MAX_SCORE:
-    #     game.round()
-    # print("Thank you for gaming!")
+    while game.user.score < MAX_SCORE and computer.score < MAX_SCORE:
+        game.round()
+    print("Thank you for gaming!")
 
 
 if __name__ == '__main__':
