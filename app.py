@@ -3,12 +3,17 @@ import time
 
 POSSIBLE_MOVES = ["rock", "paper", "scissor"]
 MAX_SCORE = 3
+SPECIAL_CHARACTER = ["!§$%&/()=?{[]}-_<>|´`"]
+NUMBER_CHARACTER = ["0123456789"]
+UPPER_CASE = ["ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖ"]
+LOWER_CASE = ["abcdefghijklmnopqrstuvwxyzäöß"]
+PASSWORD_LENGTH = 8
 
 
 class Game:
-    def __init__(self, user, computer):
-        self.user = user
+    def __init__(self, computer, user):
         self.computer = computer
+        self.user = user
 
     def round(self):
         # user and computer take their choices
@@ -73,11 +78,11 @@ class Game:
 
 class User:
 
-    def __init__(self, name):
+    def __init__(self, name, password):
         self.score = 0
         self.name = name
+        self.password = password
         self._choice = "nothing"
-        self.have_win = False
 
     def add_point(self):
         self.score += 1
@@ -92,6 +97,21 @@ class User:
             raise ValueError(f'You can choose between {" / ".join(POSSIBLE_MOVES)}')
         self._choice = move
 
+    @property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def password(self, password):
+        # password needs:
+        # letter in upper and lower case
+        # at least one special sign
+        # at least one number
+        if len(password) >= 8:
+            self._password = password
+        else:
+            raise ValueError("Password needs at least 8 character")
+
 
 class Computer:
     def __init__(self):
@@ -105,14 +125,25 @@ class Computer:
         self.choice = random.choice(POSSIBLE_MOVES)
 
 
+def register():
+    while True:
+        try:
+            user = User(input("name: "), input("password: "))
+            break
+        except ValueError as err:
+            print(err)
+    # if the object not exists in the user_test_file
+    #   then save object in text-file
+    return user
+
+
 def main():
-    print('Welcome to the Game "Rock, Paper or Scissor!"')
-    name = input("Name: ")
-    print(f"Hello {name}! Lets start the Game!")
-    user = User(name)
     computer = Computer()
-    game = Game(user, computer)
-    while user.score < MAX_SCORE and computer.score < MAX_SCORE:
+    game = Game(computer, register())
+    print('Welcome to the Game "Rock, Paper or Scissor!"')
+    print(f'Hello {game.user.name}. Lets start the game.')
+
+    while game.user.score < MAX_SCORE and computer.score < MAX_SCORE:
         game.round()
     print("Thank you for gaming!")
 
