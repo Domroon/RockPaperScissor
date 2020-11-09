@@ -1,5 +1,6 @@
 import random
 import time
+import sys
 
 POSSIBLE_MOVES = ["rock", "paper", "scissor"]
 MAX_SCORE = 3
@@ -79,11 +80,15 @@ class Game:
 
 class User:
 
-    def __init__(self, name, password):
+    def __init__(self, name, password, email):
         self.score = 0
         self.name = name
         self.password = password
         self._choice = "nothing"
+        self.email = email
+        self.looses = None
+        self.wins = None
+        self.played_rounds = None
 
     def add_point(self):
         self.score += 1
@@ -151,6 +156,26 @@ class User:
         else:
             raise ValueError("Password needs at least 8 character")
 
+    @property
+    def email(self):
+        return self._email
+
+    @email.setter
+    def email(self, email):
+        # check for '@'- and '.'- sign
+        if '@' not in email:
+            raise ValueError("Email needs an '@'")
+
+        if '.' not in email:
+            raise ValueError("Email needs an '.'")
+        else:
+            self._email = email
+
+    def show_statistics(self):
+        print(f'looses: {self.looses}')
+        print(f'wins: {self.wins}')
+        print(f'played rounds: {self.played_rounds}')
+
 
 class Computer:
     def __init__(self):
@@ -167,20 +192,93 @@ class Computer:
 def register():
     while True:
         try:
-            user = User(input("name: "), input("password: "))
+            user = User(input("name: "), input("password: "), input("email: "))
             break
         except ValueError as err:
             print(err)
     # if the object not exists in the user_test_file
     #   then save object in text-file
+    # (make user_save-method)
     return user
 
 
+def save_user(user):
+    user_list = open("user_list.txt", "a")
+    user_list.write('\n' +
+                    user.name + ' ' +
+                    user.password + ' ' +
+                    user.email)
+    user_list.close()
+
+
+def load_user(username, user_password):
+    user_list = open("user_list.txt", "r")
+
+    # find the right line
+    user_to_load = None
+    for line in user_list:
+        if username in line:
+            user_to_load = line
+
+    # extract the data that's separate by spaces
+    # and save it to individual elements in a list
+    # called user_data
+    user_data = user_to_load.rsplit(' ')
+    login_name = user_data[0]
+    password = user_data[1]
+    email = user_data[2]
+
+    if login_name != username:
+        raise ValueError('Wrong user-name or user does not exist.')
+
+    if password != user_password:
+        raise ValueError('Wrong password!')
+    else:
+        user = User(login_name, password, email)
+    user_list.close()
+    return user
+
+
+def login_user():
+    while True:
+        try:
+            user = load_user(input("name: "), input("password: "))
+            break
+        except ValueError as err:
+            print(err)
+    return user
+
+
+def login_screen():
+    print('1 - Login')
+    print('2 - Register')
+    print('3 - End')
+    user_choice = int(input())
+
+    if user_choice == 1:
+        user = login_user()
+        print(f'Welcome back, {user.name}!')
+        return user
+    elif user_choice == 2:
+        user = register()
+        save_user(user)
+        print(f'Welcome {user.name}. Let\'s play our first game!')
+        return user
+    elif user_choice == 3:
+        sys.exit()
+    else:
+        raise ValueError("Your number must be between 1-3!")
+
+
 def main():
-    computer = Computer()
-    game = Game(computer, register())
     print('Welcome to the Game "Rock, Paper or Scissor!"')
-    print(f'Hello {game.user.name}. Lets start the game.')
+    computer = Computer()
+    while True:
+        try:
+            game = Game(computer, login_screen())
+            break
+        except ValueError as err:
+            print(err)
 
     while game.user.score < MAX_SCORE and computer.score < MAX_SCORE:
         game.round()
