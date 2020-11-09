@@ -85,6 +85,9 @@ class User:
         self.password = password
         self._choice = "nothing"
         self.email = email
+        self.looses = None
+        self.wins = None
+        self.played_rounds = 0
 
     def add_point(self):
         self.score += 1
