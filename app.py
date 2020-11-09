@@ -229,7 +229,7 @@ def load_user(username, user_password):
     email = user_data[2]
 
     if login_name != username:
-        raise ValueError('Wrong user-name or user do not exist.')
+        raise ValueError('Wrong user-name or user does not exist.')
 
     if password != user_password:
         raise ValueError('Wrong password!')
@@ -239,15 +239,19 @@ def load_user(username, user_password):
     return user
 
 
-def main():
-    # user = User('name', 'Right!123', '@.')
+def login_user():
     while True:
         try:
             user = load_user(input("name: "), input("password: "))
             break
         except ValueError as err:
             print(err)
+    return user
 
+
+def main():
+
+    user = login_user()
     # user = register()
     # save_user(user)
     computer = Computer()
