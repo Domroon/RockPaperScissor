@@ -168,6 +168,11 @@ class User:
         if '.' not in email:
             raise ValueError("Email needs an '.'")
 
+    def show_statistics(self):
+        print(f'looses: {self.looses}')
+        print(f'wins: {self.wins}')
+        print(f'played rounds: {self.played_rounds}')
+
 
 class Computer:
     def __init__(self):
