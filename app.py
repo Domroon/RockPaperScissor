@@ -79,11 +79,12 @@ class Game:
 
 class User:
 
-    def __init__(self, name, password):
+    def __init__(self, name, password, email):
         self.score = 0
         self.name = name
         self.password = password
         self._choice = "nothing"
+        self.email = email
 
     def add_point(self):
         self.score += 1
@@ -100,7 +101,7 @@ class User:
 
     @property
     def password(self):
-        return self._password
+        return self.password
 
     @password.setter
     def password(self, password):
@@ -151,6 +152,19 @@ class User:
         else:
             raise ValueError("Password needs at least 8 character")
 
+    @property
+    def email(self):
+        return self.email
+
+    @email.setter
+    def email(self, email):
+        # check for '@'- and '.'- sign
+        if '@' not in email:
+            raise ValueError("Email needs an '@'")
+
+        if '.' not in email:
+            raise ValueError("Email needs an '.'")
+
 
 class Computer:
     def __init__(self):
@@ -167,12 +181,13 @@ class Computer:
 def register():
     while True:
         try:
-            user = User(input("name: "), input("password: "))
+            user = User(input("name: "), input("password: "), input("email: "))
             break
         except ValueError as err:
             print(err)
     # if the object not exists in the user_test_file
     #   then save object in text-file
+    # (make user_save-method)
     return user
 
 
