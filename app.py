@@ -230,22 +230,18 @@ def load_user(username):
 
     if login_name != username:
         raise ValueError('Wrong user-name or user do not exist.')
-
-    while True:
-        try:
-            user = User(login_name, password, email)
-        except ValueError as err:
-            print(err)
+    else:
+        user = User(login_name, password, email)
     user_list.close()
-
     return user
 
 
 def main():
-    user = User('name', 'Right!123', '@.')
+    # user = User('name', 'Right!123', '@.')
     while True:
         try:
             user = load_user(input("name: "))
+            break
         except ValueError as err:
             print(err)
 
