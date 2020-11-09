@@ -38,7 +38,8 @@ class Game:
         print(f"User score: {self.user.score}")
         print(f"computer score: {self.computer.score}")
 
-    def round_animation(self):
+    @staticmethod
+    def round_animation():
         speed = 0.5
         time.sleep(speed)
         print("Rock!")
