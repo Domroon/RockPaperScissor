@@ -114,10 +114,19 @@ class User:
             if letter in password:
                 have_upper_case = True
 
-        if have_upper_case:
-            pass
-        else:
+        if not have_upper_case:
             raise ValueError("Password needs at least one upper-case-letter")
+
+        # check lower_case
+        have_lower_case = False
+        for letter in LOWER_CASE:
+            if letter in password:
+                have_lower_case = True
+
+        if not have_lower_case:
+            raise ValueError("Password needs at least one lower-case-letter")
+
+        # check special_sign
 
         if len(password) >= 8:
             self._password = password
@@ -125,9 +134,6 @@ class User:
             raise ValueError("Password needs at least 8 character")
 
 
-
-        # check lower_case
-        # check special_sign
 
 
 class Computer:
