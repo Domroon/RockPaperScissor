@@ -87,7 +87,7 @@ class User:
         self.email = email
         self.looses = None
         self.wins = None
-        self.played_rounds = 0
+        self.played_rounds = None
 
     def add_point(self):
         self.score += 1
@@ -104,7 +104,7 @@ class User:
 
     @property
     def password(self):
-        return self.password
+        return self._password
 
     @password.setter
     def password(self, password):
@@ -157,7 +157,7 @@ class User:
 
     @property
     def email(self):
-        return self.email
+        return self._email
 
     @email.setter
     def email(self, email):
@@ -167,6 +167,8 @@ class User:
 
         if '.' not in email:
             raise ValueError("Email needs an '.'")
+        else:
+            self._email = email
 
     def show_statistics(self):
         print(f'looses: {self.looses}')
@@ -199,9 +201,20 @@ def register():
     return user
 
 
+def save_user(user):
+    user_list = open("user_list.txt", "a")
+    user_list.write('\n' +
+                    user.name + ' ' +
+                    user.password + ' ' +
+                    user.email)
+    user_list.close()
+
+
 def main():
+    user = register()
+    save_user(user)
     computer = Computer()
-    game = Game(computer, register())
+    game = Game(computer, user)
     print('Welcome to the Game "Rock, Paper or Scissor!"')
     print(f'Hello {game.user.name}. Lets start the game.')
 
