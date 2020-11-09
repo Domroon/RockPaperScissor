@@ -1,6 +1,6 @@
 import random
 import time
-import string
+import sys
 
 POSSIBLE_MOVES = ["rock", "paper", "scissor"]
 MAX_SCORE = 3
@@ -249,15 +249,36 @@ def login_user():
     return user
 
 
-def main():
+def login_screen():
+    print('1 - Login')
+    print('2 - Register')
+    print('3 - End')
+    user_choice = int(input())
 
-    user = login_user()
-    # user = register()
-    # save_user(user)
-    computer = Computer()
-    game = Game(computer, user)
+    if user_choice == 1:
+        user = login_user()
+        print(f'Welcome back, {user.name}!')
+        return user
+    elif user_choice == 2:
+        user = register()
+        save_user(user)
+        print(f'Welcome {user.name}. Let\'s play our first game!')
+        return user
+    elif user_choice == 3:
+        sys.exit()
+    else:
+        raise ValueError("Your number must be between 1-3!")
+
+
+def main():
     print('Welcome to the Game "Rock, Paper or Scissor!"')
-    print(f'Hello {game.user.name}. Lets start the game.')
+    computer = Computer()
+    while True:
+        try:
+            game = Game(computer, login_screen())
+            break
+        except ValueError as err:
+            print(err)
 
     while game.user.score < MAX_SCORE and computer.score < MAX_SCORE:
         game.round()
