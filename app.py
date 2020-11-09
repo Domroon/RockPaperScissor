@@ -38,7 +38,8 @@ class Game:
         print(f"User score: {self.user.score}")
         print(f"computer score: {self.computer.score}")
 
-    def round_animation(self):
+    @staticmethod
+    def round_animation():
         speed = 0.5
         time.sleep(speed)
         print("Rock!")
@@ -114,20 +115,41 @@ class User:
             if letter in password:
                 have_upper_case = True
 
-        if have_upper_case:
-            pass
-        else:
+        if not have_upper_case:
             raise ValueError("Password needs at least one upper-case-letter")
 
+        # check lower_case
+        have_lower_case = False
+        for letter in LOWER_CASE:
+            if letter in password:
+                have_lower_case = True
+
+        if not have_lower_case:
+            raise ValueError("Password needs at least one lower-case-letter")
+
+        # check special_sign
+        have_special_sign = False
+        for letter in SPECIAL_CHARACTER:
+            if letter in password:
+                have_special_sign = True
+
+        if not have_special_sign:
+            raise ValueError("Password needs at least one special sign")
+
+        # check number
+        have_number_sign = False
+        for letter in NUMBER_CHARACTER:
+            if letter in password:
+                have_number_sign = True
+
+        if not have_number_sign:
+            raise ValueError("Password needs at least one number")
+
+        # check password length
         if len(password) >= 8:
             self._password = password
         else:
             raise ValueError("Password needs at least 8 character")
-
-
-
-        # check lower_case
-        # check special_sign
 
 
 class Computer:
