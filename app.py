@@ -3,10 +3,10 @@ import time
 
 POSSIBLE_MOVES = ["rock", "paper", "scissor"]
 MAX_SCORE = 3
-SPECIAL_CHARACTER = ["!§$%&/()=?{[]}-_<>|´`"]
-NUMBER_CHARACTER = ["0123456789"]
-UPPER_CASE = ["ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖ"]
-LOWER_CASE = ["abcdefghijklmnopqrstuvwxyzäöß"]
+SPECIAL_CHARACTER = "!§$%&/()=?{[]}-_<>|´`"
+NUMBER_CHARACTER = "0123456789"
+UPPER_CASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ"
+LOWER_CASE = "abcdefghijklmnopqrstuvwxyzäöüß"
 PASSWORD_LENGTH = 8
 
 
@@ -123,6 +123,8 @@ class User:
             self._password = password
         else:
             raise ValueError("Password needs at least 8 character")
+
+
 
         # check lower_case
         # check special_sign
