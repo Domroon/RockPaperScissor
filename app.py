@@ -211,7 +211,7 @@ def save_user(user):
     user_list.close()
 
 
-def load_user(username):
+def load_user(username, user_password):
     user_list = open("user_list.txt", "r")
 
     # find the right line
@@ -230,6 +230,9 @@ def load_user(username):
 
     if login_name != username:
         raise ValueError('Wrong user-name or user do not exist.')
+
+    if password != user_password:
+        raise ValueError('Wrong password!')
     else:
         user = User(login_name, password, email)
     user_list.close()
@@ -240,7 +243,7 @@ def main():
     # user = User('name', 'Right!123', '@.')
     while True:
         try:
-            user = load_user(input("name: "))
+            user = load_user(input("name: "), input("password: "))
             break
         except ValueError as err:
             print(err)
