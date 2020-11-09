@@ -1,5 +1,6 @@
 import random
 import time
+import string
 
 POSSIBLE_MOVES = ["rock", "paper", "scissor"]
 MAX_SCORE = 3
@@ -210,9 +211,46 @@ def save_user(user):
     user_list.close()
 
 
+def load_user(username):
+    user_list = open("user_list.txt", "r")
+
+    # find the right line
+    user_to_load = None
+    for line in user_list:
+        if username in line:
+            user_to_load = line
+
+    # extract the data that's separate by spaces
+    # and save it to individual elements in a list
+    # called user_data
+    user_data = user_to_load.rsplit(' ')
+    login_name = user_data[0]
+    password = user_data[1]
+    email = user_data[2]
+
+    if login_name != username:
+        raise ValueError('Wrong user-name or user do not exist.')
+
+    while True:
+        try:
+            user = User(login_name, password, email)
+        except ValueError as err:
+            print(err)
+    user_list.close()
+
+    return user
+
+
 def main():
-    user = register()
-    save_user(user)
+    user = User('name', 'Right!123', '@.')
+    while True:
+        try:
+            user = load_user(input("name: "))
+        except ValueError as err:
+            print(err)
+
+    # user = register()
+    # save_user(user)
     computer = Computer()
     game = Game(computer, user)
     print('Welcome to the Game "Rock, Paper or Scissor!"')
