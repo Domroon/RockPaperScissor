@@ -270,18 +270,28 @@ def login_screen():
         raise ValueError("Your number must be between 1-3!")
 
 
+def start_screen(player_1, player_2):
+    print('1 - Player VS Computer')
+    print('2 - Player VS Computer')
+    print('3 - Computer VS Computer')
+    user_choice = int(input())
+
+    if user_choice == 1:
+        player_1 = Computer()
+        while True:
+            try:
+                game = Game(player_1, login_screen())
+                return game
+            except ValueError as err:
+                print(err)
+
+
 def main():
     print('Welcome to the Game "Rock, Paper or Scissor!"')
-    computer = Computer()
-    while True:
-        try:
-            game = Game(computer, login_screen())
-            break
-        except ValueError as err:
-            print(err)
 
-    while game.user.score < MAX_SCORE and computer.score < MAX_SCORE:
-        game.round()
+    # loop not working
+    while start_screen().user.score < MAX_SCORE and start_screen().computer.score < MAX_SCORE:
+        start_screen().round()
     print("Thank you for gaming!")
 
 
