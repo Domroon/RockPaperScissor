@@ -12,32 +12,57 @@ PASSWORD_LENGTH = 8
 
 
 class Game:
-    def __init__(self, computer, user):
-        self.computer = computer
-        self.user = user
+    def __init__(self, player_1, player_2):
+        self.player_1_is_user = False
+        self.player_2_is_user = False
+
+        if player_1.__class__ == User:
+            self.user_1 = player_1
+            self.computer_1 = None
+            self.player_1_is_user = True
+
+        elif player_1.__class__ == Computer:
+            self.computer_1 = player_1
+            self.user_1 = None
+            self.player_1_is_user = False
+
+        if player_2.__class__ == User:
+            self.user_2 = player_2
+            self.computer_2 = None
+            self.player_2_is_user = True
+
+        elif player_2.__class__ == Computer:
+            self.computer_2 = player_2
+            self.user_2 = None
+            self.player_2_is_user = False
 
     def round(self):
+        # user_1 against computer_1
+        if self.player_1_is_user and not self.player_2_is_user:
+            self.player_against_computer()
+
+    def player_against_computer(self):
         # user and computer take their choices
         while True:
             try:
-                self.user.choice = input("Please take your choice: ")
+                self.user_1.choice = input("Please take your choice: ")
                 break
             except ValueError as error:
                 print(error)
-        self.computer.make_choice()
+        self.computer_1.make_choice()
         self.round_animation()
-        print(f"{self.user.choice} against {self.computer.choice}")
+        print(f"{self.user_1.choice} against {self.computer_1.choice}")
         winner = self.get_winner()
         if winner is None:
             print("Undecided!")
         else:
             winner.add_point()
-            if winner is self.user:
+            if winner is self.user_1:
                 print("You win!")
             else:
                 print("You loose!")
-        print(f"User score: {self.user.score}")
-        print(f"computer score: {self.computer.score}")
+        print(f"User score: {self.user_1.score}")
+        print(f"computer score: {self.computer_1.score}")
 
     @staticmethod
     def round_animation():
@@ -287,11 +312,12 @@ def start_screen(player_1, player_2):
 
 
 def main():
+    # for Testing
     print('Welcome to the Game "Rock, Paper or Scissor!"')
-
-    # loop not working
-    while start_screen().user.score < MAX_SCORE and start_screen().computer.score < MAX_SCORE:
-        start_screen().round()
+    user = User("Max", "Asdf65464!!", "Max@web.de")
+    computer = Computer
+    game = Game(user, computer)
+    game.round()
     print("Thank you for gaming!")
 
 
