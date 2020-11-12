@@ -20,7 +20,6 @@ class Game:
             self.user_1 = player_1
             self.computer_1 = None
             self.player_1_is_user = True
-
         elif player_1.__class__ == Computer:
             self.computer_1 = player_1
             self.user_1 = None
@@ -30,14 +29,13 @@ class Game:
             self.user_2 = player_2
             self.computer_2 = None
             self.player_2_is_user = True
-
         elif player_2.__class__ == Computer:
             self.computer_2 = player_2
             self.user_2 = None
             self.player_2_is_user = False
 
     def round(self):
-        # user_1 against computer_1
+        # user_1 against computer_2
         if self.player_1_is_user and not self.player_2_is_user:
             self.player_against_computer()
 
@@ -49,9 +47,9 @@ class Game:
                 break
             except ValueError as error:
                 print(error)
-        self.computer_1.make_choice()
+        self.computer_2.make_choice()
         self.round_animation()
-        print(f"{self.user_1.choice} against {self.computer_1.choice}")
+        print(f"{self.user_1.choice} against {self.computer_2.choice}")
         winner = self.get_winner()
         if winner is None:
             print("Undecided!")
@@ -62,7 +60,7 @@ class Game:
             else:
                 print("You loose!")
         print(f"User score: {self.user_1.score}")
-        print(f"computer score: {self.computer_1.score}")
+        print(f"computer score: {self.computer_2.score}")
 
     @staticmethod
     def round_animation():
@@ -315,7 +313,7 @@ def main():
     # for Testing
     print('Welcome to the Game "Rock, Paper or Scissor!"')
     user = User("Max", "Asdf65464!!", "Max@web.de")
-    computer = Computer
+    computer = Computer()
     game = Game(user, computer)
     game.round()
     print("Thank you for gaming!")
