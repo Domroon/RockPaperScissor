@@ -39,6 +39,12 @@ class Game:
         if self.player_1_is_user and not self.player_2_is_user:
             self.player_against_computer()
 
+        # user_1 against user_2
+            # self.player_against_player()
+
+        # computer_1 against computer_2
+            # self.computer_against_computer()
+
     def player_against_computer(self):
         # user and computer take their choices
         while True:
@@ -74,31 +80,33 @@ class Game:
         time.sleep(speed)
 
     def get_winner(self):
-        choice_user = self.user.choice
-        choice_computer = self.computer.choice
-        if choice_user == "rock":
-            if choice_computer == "paper":
-                return self.computer
-            elif choice_computer == "scissor":
-                return self.user
+        # user_1 against computer_2
+        if self.player_1_is_user and not self.player_2_is_user:
+            choice_user = self.user_1.choice
+            choice_computer = self.computer_2.choice
+            if choice_user == "rock":
+                if choice_computer == "paper":
+                    return self.computer
+                elif choice_computer == "scissor":
+                    return self.user
+                else:
+                    return None
+            elif choice_user == "paper":
+                if choice_computer == "scissor":
+                    return self.computer
+                elif choice_computer == "rock":
+                    return self.user
+                else:
+                    return None
+            elif choice_user == "scissor":
+                if choice_computer == "rock":
+                    return self.computer
+                elif choice_computer == "paper":
+                    return self.user
+                else:
+                    return None
             else:
-                return None
-        elif choice_user == "paper":
-            if choice_computer == "scissor":
-                return self.computer
-            elif choice_computer == "rock":
-                return self.user
-            else:
-                return None
-        elif choice_user == "scissor":
-            if choice_computer == "rock":
-                return self.computer
-            elif choice_computer == "paper":
-                return self.user
-            else:
-                return None
-        else:
-            raise ValueError()
+                raise ValueError()
 
 
 class User:
