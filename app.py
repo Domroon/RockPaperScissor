@@ -40,7 +40,8 @@ class Game:
             self.player_against_computer()
 
         # user_1 against user_2
-            # self.player_against_player()
+        if self.player_1_is_user and self.player_2_is_user:
+            self.player_against_player()
 
         # computer_1 against computer_2
             # self.computer_against_computer()
@@ -68,6 +69,38 @@ class Game:
         print(f"User score: {self.user_1.score}")
         print(f"computer score: {self.computer_2.score}")
 
+    def player_against_player(self):
+        # user_2 take the choice
+        while True:
+            try:
+                self.user_1.choice = input(f'{self.user_1.name}, please make your choice: ')
+                break
+            except ValueError as error:
+                print(error)
+
+        # user_2 take the choice
+        while True:
+            try:
+                self.user_2.choice = input(f'{self.user_2.name}, please make your choice: ')
+                break
+            except ValueError as error:
+                print(error)
+
+        self.round_animation()
+        print(f"{self.user_1.choice} against {self.user_2.choice}")
+        winner = self.get_winner()
+        if winner is None:
+            print("Undecided!")
+        else:
+            winner.add_point()
+            if winner is self.user_1:
+                print(f'{self.user_1.name} win!')
+            elif winner is self.user_2:
+                print(f'{self.user_2.name} win!')
+
+        print(f'{self.user_1.name} score: {self.user_1.score}')
+        print(f'{self.user_2.name} score: {self.user_2.score}')
+
     @staticmethod
     def round_animation():
         speed = 0.5
@@ -86,23 +119,51 @@ class Game:
             choice_computer = self.computer_2.choice
             if choice_user == "rock":
                 if choice_computer == "paper":
-                    return self.computer
+                    return self.computer_2
                 elif choice_computer == "scissor":
-                    return self.user
+                    return self.user_1
                 else:
                     return None
             elif choice_user == "paper":
                 if choice_computer == "scissor":
-                    return self.computer
+                    return self.computer_2
                 elif choice_computer == "rock":
-                    return self.user
+                    return self.user_1
                 else:
                     return None
             elif choice_user == "scissor":
                 if choice_computer == "rock":
-                    return self.computer
+                    return self.computer_2
                 elif choice_computer == "paper":
-                    return self.user
+                    return self.user_1
+                else:
+                    return None
+            else:
+                raise ValueError()
+
+        # user_1 against user_2
+        if self.player_1_is_user and self.player_2_is_user:
+            choice_player_1 = self.user_1.choice
+            choice_player_2 = self.user_2.choice
+            if choice_player_1 == "rock":
+                if choice_player_2 == "paper":
+                    return self.user_2
+                elif choice_player_2 == "scissor":
+                    return self.user_1
+                else:
+                    return None
+            elif choice_player_1 == "paper":
+                if choice_player_2 == "scissor":
+                    return self.user_2
+                elif choice_player_2 == "rock":
+                    return self.user_1
+                else:
+                    return None
+            elif choice_player_1 == "scissor":
+                if choice_player_2 == "rock":
+                    return self.user_2
+                elif choice_player_2 == "paper":
+                    return self.user_1
                 else:
                     return None
             else:
@@ -320,9 +381,10 @@ def start_screen(player_1, player_2):
 def main():
     # for Testing
     print('Welcome to the Game "Rock, Paper or Scissor!"')
-    user = User("Max", "Asdf65464!!", "Max@web.de")
-    computer = Computer()
-    game = Game(user, computer)
+    user1 = User("Max", "Asdf65464!!", "Max@web.de")
+    user2 = User("Anna", "Anna!!6545674", "annae@web.de")
+    computer = Computer();
+    game = Game(user1, user2)
     game.round()
     print("Thank you for gaming!")
 
