@@ -9,6 +9,7 @@ NUMBER_CHARACTER = "0123456789"
 UPPER_CASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ"
 LOWER_CASE = "abcdefghijklmnopqrstuvwxyzäöüß"
 PASSWORD_LENGTH = 8
+GAME_SPEED = 0.1
 
 
 class Game:
@@ -123,14 +124,13 @@ class Game:
 
     @staticmethod
     def round_animation():
-        speed = 0.5
-        time.sleep(speed)
+        time.sleep(GAME_SPEED)
         print("Rock!")
-        time.sleep(speed)
+        time.sleep(GAME_SPEED)
         print("Paper!")
-        time.sleep(speed)
+        time.sleep(GAME_SPEED)
         print("Scissor!")
-        time.sleep(speed)
+        time.sleep(GAME_SPEED)
 
     def get_winner(self):
         # user_1 against computer_2
@@ -220,18 +220,17 @@ class Game:
 
 class User:
 
-    def __init__(self, name, password, email):
+    def __init__(self, name, password, email, looses, wins, played_games, won_best_of_three, loose_best_of_three):
         self.score = 0
         self.name = name
         self.password = password
         self._choice = "nothing"
         self.email = email
-        # all subsequent needs to load from text-file:
-        self.looses = 0
-        self.wins = 0
-        self.played_games = 0
-        self.won_best_of_three = 0
-        self.loose_best_of_three = 0
+        self.looses = looses
+        self.wins = wins
+        self.played_games = played_games
+        self.won_best_of_three = won_best_of_three
+        self.loose_best_of_three = loose_best_of_three
 
     def add_won_best_of_three(self):
         self.won_best_of_three += 1
@@ -326,7 +325,7 @@ class User:
     def show_statistics(self):
         print(f'looses: {self.looses}')
         print(f'wins: {self.wins}')
-        print(f'played rounds: {self.played_games}')
+        print(f'played games: {self.played_games}')
         print(f'won Bof3: {self.won_best_of_three}')
         print(f'loose Bof3: {self.loose_best_of_three}')
 
@@ -346,7 +345,7 @@ class Computer:
 def register():
     while True:
         try:
-            user = User(input("name: "), input("password: "), input("email: "))
+            user = User(input("name: "), input("password: "), input("email: "), 0, 0, 0, 0, 0)
             break
         except ValueError as err:
             print(err)
@@ -361,7 +360,12 @@ def save_user(user):
     user_list.write('\n' +
                     user.name + ' ' +
                     user.password + ' ' +
-                    user.email)
+                    user.email + ' ' +
+                    str(user.looses) + ' ' +
+                    str(user.wins) + ' ' +
+                    str(user.played_games) + ' ' +
+                    str(user.won_best_of_three) + ' ' +
+                    str(user.loose_best_of_three))
     user_list.close()
 
 
@@ -381,6 +385,11 @@ def load_user(username, user_password):
     login_name = user_data[0]
     password = user_data[1]
     email = user_data[2]
+    looses = int(user_data[3])
+    wins = int(user_data[4])
+    played_games = int(user_data[5])
+    won_best_of_three = int(user_data[6])
+    loose_best_of_three = int(user_data[7])
 
     if login_name != username:
         raise ValueError('Wrong user-name or user does not exist.')
@@ -388,7 +397,7 @@ def load_user(username, user_password):
     if password != user_password:
         raise ValueError('Wrong password!')
     else:
-        user = User(login_name, password, email)
+        user = User(login_name, password, email, looses, wins, played_games, won_best_of_three, loose_best_of_three)
     user_list.close()
     return user
 
@@ -448,27 +457,39 @@ def best_of_three(player_1, player_2):
     if player_1.__class__ == User:
         player_1.add_played_game()
         player_1.wins = player_1.score
+    player_2.looses = player_1.score
     if player_2.__class__ == User:
         player_2.add_played_game()
         player_2.wins = player_2.score
+    player_1.looses = player_2.score
 
     if player_1.score == 3 and player_1.__class__ == User:
         player_1.add_won_best_of_three()
         if player_2.__class__ == User:
-            player_2.loose_best_of_three()
+            player_2.add_loose_best_of_three()
     elif player_2.score == 3 and player_2.__class__ == User:
         player_2.add_won_best_of_three()
         if player_1.__class__ == User:
-            player_1.loose_best_of_three()
+            player_1.add_loose_best_of_three()
+
+    if player_1.__class__ == User:
+        save_user(player_1)
+
+    if player_2.__class__ == User:
+        save_user(player_2)
 
 
 def main():
     # for Testing
-    user = User("Hans", "ajkhhj!!!6846AA", "hans@web.de")
+    dominik = register()
+    user = dominik
     com = Computer()
+    print(f'{user.name}, thats your statistics: ')
+    user.show_statistics()
     best_of_three(user, com)
     print(f'{user.name}, thats your statistics: ')
     user.show_statistics()
+
     print("Thank you for gaming!")
 
 
