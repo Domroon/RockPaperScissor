@@ -12,32 +12,114 @@ PASSWORD_LENGTH = 8
 
 
 class Game:
-    def __init__(self, computer, user):
-        self.computer = computer
-        self.user = user
+    def __init__(self, player_1, player_2):
+        self.player_1_is_user = False
+        self.player_2_is_user = False
+
+        if player_1.__class__ == User:
+            self.user_1 = player_1
+            self.computer_1 = None
+            self.player_1_is_user = True
+        elif player_1.__class__ == Computer:
+            self.computer_1 = player_1
+            self.user_1 = None
+            self.player_1_is_user = False
+
+        if player_2.__class__ == User:
+            self.user_2 = player_2
+            self.computer_2 = None
+            self.player_2_is_user = True
+        elif player_2.__class__ == Computer:
+            self.computer_2 = player_2
+            self.user_2 = None
+            self.player_2_is_user = False
 
     def round(self):
+        # user_1 against computer_2
+        if self.player_1_is_user and not self.player_2_is_user:
+            self.player_against_computer()
+
+        # user_1 against user_2
+        if self.player_1_is_user and self.player_2_is_user:
+            self.player_against_player()
+
+        # computer_1 against computer_2
+        if not self.player_1_is_user and not self.player_2_is_user:
+            self.computer_against_computer()
+
+    def player_against_computer(self):
         # user and computer take their choices
         while True:
             try:
-                self.user.choice = input("Please take your choice: ")
+                self.user_1.choice = input("Please take your choice: ")
                 break
             except ValueError as error:
                 print(error)
-        self.computer.make_choice()
+        self.computer_2.make_choice()
         self.round_animation()
-        print(f"{self.user.choice} against {self.computer.choice}")
+        print(f"{self.user_1.choice} against {self.computer_2.choice}")
         winner = self.get_winner()
         if winner is None:
             print("Undecided!")
         else:
             winner.add_point()
-            if winner is self.user:
+            if winner is self.user_1:
                 print("You win!")
             else:
                 print("You loose!")
-        print(f"User score: {self.user.score}")
-        print(f"computer score: {self.computer.score}")
+        print(f"User score: {self.user_1.score}")
+        print(f"computer score: {self.computer_2.score}")
+
+    def player_against_player(self):
+        # user_2 take the choice
+        while True:
+            try:
+                self.user_1.choice = input(f'{self.user_1.name}, please make your choice: ')
+                break
+            except ValueError as error:
+                print(error)
+
+        # user_2 take the choice
+        while True:
+            try:
+                self.user_2.choice = input(f'{self.user_2.name}, please make your choice: ')
+                break
+            except ValueError as error:
+                print(error)
+
+        self.round_animation()
+        print(f"{self.user_1.choice} against {self.user_2.choice}")
+        winner = self.get_winner()
+        if winner is None:
+            print("Undecided!")
+        else:
+            winner.add_point()
+            if winner is self.user_1:
+                print(f'{self.user_1.name} win!')
+            elif winner is self.user_2:
+                print(f'{self.user_2.name} win!')
+
+        print(f'{self.user_1.name} score: {self.user_1.score}')
+        print(f'{self.user_2.name} score: {self.user_2.score}')
+
+    def computer_against_computer(self):
+        self.computer_1.make_choice()
+        self.computer_2.make_choice()
+        self.round_animation()
+        print(f'computer 1: {self.computer_1.choice}')
+        print(f'computer 2: {self.computer_2.choice}')
+        print(f"{self.computer_1.choice} against {self.computer_2.choice}")
+        winner = self.get_winner()
+        if winner is None:
+            print("Undecided!")
+        else:
+            winner.add_point()
+            if winner is self.computer_1:
+                print("computer_1 win!")
+            elif winner is self.computer_2:
+                print("computer_2 win!")
+        print(f"computer_1 score: {self.computer_1.score}")
+        print(f"computer_2 score: {self.computer_2.score}")
 
     @staticmethod
     def round_animation():
@@ -51,31 +133,89 @@ class Game:
         time.sleep(speed)
 
     def get_winner(self):
-        choice_user = self.user.choice
-        choice_computer = self.computer.choice
-        if choice_user == "rock":
-            if choice_computer == "paper":
-                return self.computer
-            elif choice_computer == "scissor":
-                return self.user
+        # user_1 against computer_2
+        if self.player_1_is_user and not self.player_2_is_user:
+            choice_user = self.user_1.choice
+            choice_computer = self.computer_2.choice
+            if choice_user == "rock":
+                if choice_computer == "paper":
+                    return self.computer_2
+                elif choice_computer == "scissor":
+                    return self.user_1
+                else:
+                    return None
+            elif choice_user == "paper":
+                if choice_computer == "scissor":
+                    return self.computer_2
+                elif choice_computer == "rock":
+                    return self.user_1
+                else:
+                    return None
+            elif choice_user == "scissor":
+                if choice_computer == "rock":
+                    return self.computer_2
+                elif choice_computer == "paper":
+                    return self.user_1
+                else:
+                    return None
             else:
-                return None
-        elif choice_user == "paper":
-            if choice_computer == "scissor":
-                return self.computer
-            elif choice_computer == "rock":
-                return self.user
+                raise ValueError()
+
+        # user_1 against user_2
+        if self.player_1_is_user and self.player_2_is_user:
+            choice_player_1 = self.user_1.choice
+            choice_player_2 = self.user_2.choice
+            if choice_player_1 == "rock":
+                if choice_player_2 == "paper":
+                    return self.user_2
+                elif choice_player_2 == "scissor":
+                    return self.user_1
+                else:
+                    return None
+            elif choice_player_1 == "paper":
+                if choice_player_2 == "scissor":
+                    return self.user_2
+                elif choice_player_2 == "rock":
+                    return self.user_1
+                else:
+                    return None
+            elif choice_player_1 == "scissor":
+                if choice_player_2 == "rock":
+                    return self.user_2
+                elif choice_player_2 == "paper":
+                    return self.user_1
+                else:
+                    return None
             else:
-                return None
-        elif choice_user == "scissor":
-            if choice_computer == "rock":
-                return self.computer
-            elif choice_computer == "paper":
-                return self.user
+                raise ValueError()
+
+        # computer_1 against computer_2
+        if not self.player_1_is_user and not self.player_2_is_user:
+            choice_computer_1 = self.computer_1.choice
+            choice_computer_2 = self.computer_2.choice
+            if choice_computer_1 == "rock":
+                if choice_computer_2 == "paper":
+                    return self.computer_2
+                elif choice_computer_2 == "scissor":
+                    return self.computer_1
+                else:
+                    return None
+            elif choice_computer_1 == "paper":
+                if choice_computer_2 == "scissor":
+                    return self.computer_2
+                elif choice_computer_2 == "rock":
+                    return self.computer_1
+                else:
+                    return None
+            elif choice_computer_1 == "scissor":
+                if choice_computer_2 == "rock":
+                    return self.computer_2
+                elif choice_computer_2 == "paper":
+                    return self.computer_1
+                else:
+                    return None
             else:
-                return None
-        else:
-            raise ValueError()
+                raise ValueError()
 
 
 class User:
@@ -270,18 +410,31 @@ def login_screen():
         raise ValueError("Your number must be between 1-3!")
 
 
-def main():
-    print('Welcome to the Game "Rock, Paper or Scissor!"')
-    computer = Computer()
-    while True:
-        try:
-            game = Game(computer, login_screen())
-            break
-        except ValueError as err:
-            print(err)
+def start_screen(player_1, player_2):
+    print('1 - Player VS Computer')
+    print('2 - Player VS Computer')
+    print('3 - Computer VS Computer')
+    user_choice = int(input())
 
-    while game.user.score < MAX_SCORE and computer.score < MAX_SCORE:
-        game.round()
+    if user_choice == 1:
+        player_1 = Computer()
+        while True:
+            try:
+                game = Game(player_1, login_screen())
+                return game
+            except ValueError as err:
+                print(err)
+
+
+def main():
+    # for Testing
+    print('Welcome to the Game "Rock, Paper or Scissor!"')
+    user1 = User("Max", "Asdf65464!!", "Max@web.de")
+    user2 = User("Anna", "Anna!!6545674", "annae@web.de")
+    com1 = Computer();
+    com2 = Computer();
+    game = Game(com1, com2)
+    game.round()
     print("Thank you for gaming!")
 
 
