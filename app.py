@@ -226,12 +226,24 @@ class User:
         self.password = password
         self._choice = "nothing"
         self.email = email
-        self.looses = None
-        self.wins = None
-        self.played_rounds = None
+        # all subsequent needs to load from text-file:
+        self.looses = 0
+        self.wins = 0
+        self.played_games = 0
+        self.won_best_of_three = 0
+        self.loose_best_of_three = 0
+
+    def add_won_best_of_three(self):
+        self.won_best_of_three += 1
+
+    def add_loose_best_of_three(self):
+        self.loose_best_of_three += 1
 
     def add_point(self):
         self.score += 1
+
+    def add_played_game(self):
+        self.played_games += 1
 
     @property
     def choice(self):
@@ -314,7 +326,9 @@ class User:
     def show_statistics(self):
         print(f'looses: {self.looses}')
         print(f'wins: {self.wins}')
-        print(f'played rounds: {self.played_rounds}')
+        print(f'played rounds: {self.played_games}')
+        print(f'won Bof3: {self.won_best_of_three}')
+        print(f'loose Bof3: {self.loose_best_of_three}')
 
 
 class Computer:
@@ -426,15 +440,35 @@ def start_screen(player_1, player_2):
                 print(err)
 
 
+def best_of_three(player_1, player_2):
+    game = Game(player_1, player_2)
+    while player_1.score < 3 and player_2.score < 3:
+        game.round()
+
+    if player_1.__class__ == User:
+        player_1.add_played_game()
+        player_1.wins = player_1.score
+    if player_2.__class__ == User:
+        player_2.add_played_game()
+        player_2.wins = player_2.score
+
+    if player_1.score == 3 and player_1.__class__ == User:
+        player_1.add_won_best_of_three()
+        if player_2.__class__ == User:
+            player_2.loose_best_of_three()
+    elif player_2.score == 3 and player_2.__class__ == User:
+        player_2.add_won_best_of_three()
+        if player_1.__class__ == User:
+            player_1.loose_best_of_three()
+
+
 def main():
     # for Testing
-    print('Welcome to the Game "Rock, Paper or Scissor!"')
-    user1 = User("Max", "Asdf65464!!", "Max@web.de")
-    user2 = User("Anna", "Anna!!6545674", "annae@web.de")
-    com1 = Computer();
-    com2 = Computer();
-    game = Game(com1, com2)
-    game.round()
+    user = User("Hans", "ajkhhj!!!6846AA", "hans@web.de")
+    com = Computer()
+    best_of_three(user, com)
+    print(f'{user.name}, thats your statistics: ')
+    user.show_statistics()
     print("Thank you for gaming!")
 
 
