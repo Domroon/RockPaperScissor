@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "rockpaperscissor"
+name = "rockpaperscissor-domroon"
 version = "0.1.0"
 description = "A simple text-based Rock, Paper, Scissor game"
 authors = ["Dominik Haeusser <haeusser-dominik@web.de>"]
